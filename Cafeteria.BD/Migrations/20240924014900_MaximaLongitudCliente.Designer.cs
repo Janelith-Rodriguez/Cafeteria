@@ -4,6 +4,7 @@ using Cafeteria.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cafeteria.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240924014900_MaximaLongitudCliente")]
+    partial class MaximaLongitudCliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +75,6 @@ namespace Cafeteria.BD.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Cantidad")
-                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.Property<int>("OrdenId")
@@ -86,9 +88,6 @@ namespace Cafeteria.BD.Migrations
                     b.HasIndex("OrdenId");
 
                     b.HasIndex("ProductoId");
-
-                    b.HasIndex(new[] { "Cantidad" }, "DetalleOrden_UQ")
-                        .IsUnique();
 
                     b.ToTable("DetallesOrdenes");
                 });
@@ -142,22 +141,16 @@ namespace Cafeteria.BD.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Cantidad")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Precio")
-                        .HasMaxLength(50)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Nombre" }, "Producto_UQ")
-                        .IsUnique();
 
                     b.ToTable("Productos");
                 });
